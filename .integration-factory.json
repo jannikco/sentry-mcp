@@ -1,0 +1,220 @@
+{
+  "schemaVersion": 1,
+  "id": "sentry-mcp",
+  "kind": "provider-connector",
+  "artifactType": "connector",
+  "qualityVersion": 2,
+  "title": "Sentry MCP server",
+  "description": "Find your organization and projects before selecting error monitoring ownership.",
+  "status": "ready",
+  "verification": "mock-only",
+  "releaseEligible": true,
+  "maintainer": "jannikco",
+  "license": "MIT",
+  "product": "pipmcp",
+  "appSlug": "sentry",
+  "appName": "Sentry",
+  "operationIds": [
+    "list_organizations",
+    "list_organization_projects"
+  ],
+  "sourceRevision": "4c204ffcbfd754fe62f61638e4be6e92ee4bd94980c391e1d919e3a9ee3234f1",
+  "evidence": [
+    "Actual tools/call and direct-provider request contract tests"
+  ],
+  "provenance": [
+    "https://raw.githubusercontent.com/getsentry/sentry-api-schema/main/openapi-derefed.json"
+  ],
+  "attributionSlug": "github-sentry-mcp",
+  "connectorId": "sentry",
+  "connector": {
+    "id": "sentry",
+    "name": "Sentry",
+    "version": "0.2.0",
+    "baseUrl": "https://sentry.io/api/0",
+    "auth": {
+      "type": "bearer",
+      "env": "SENTRY_AUTH_TOKEN"
+    },
+    "tools": [
+      {
+        "name": "list_organizations",
+        "description": "List organizations accessible to your Sentry token.",
+        "method": "GET",
+        "path": "/organizations/",
+        "readOnly": true,
+        "inputSchema": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "bindings": {
+          "path": [],
+          "query": {},
+          "body": {}
+        },
+        "sampleArguments": {},
+        "provenance": [
+          "https://raw.githubusercontent.com/getsentry/sentry-api-schema/main/openapi-derefed.json"
+        ]
+      },
+      {
+        "name": "list_organization_projects",
+        "description": "List projects belonging to an authorized organization.",
+        "method": "GET",
+        "path": "/organizations/{organization_slug}/projects/",
+        "readOnly": true,
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "organization_slug": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512,
+              "description": "Identifier"
+            }
+          },
+          "required": [
+            "organization_slug"
+          ],
+          "additionalProperties": false
+        },
+        "bindings": {
+          "path": [
+            "organization_slug"
+          ],
+          "query": {},
+          "body": {}
+        },
+        "sampleArguments": {
+          "organization_slug": "my-organization"
+        },
+        "provenance": [
+          "https://raw.githubusercontent.com/getsentry/sentry-api-schema/main/openapi-derefed.json"
+        ]
+      }
+    ],
+    "workflow": {
+      "name": "Error monitoring inventory",
+      "description": "Find your organization and projects before selecting error monitoring ownership.",
+      "steps": [
+        "list_organizations",
+        "list_organization_projects"
+      ]
+    },
+    "provenance": [
+      "https://raw.githubusercontent.com/getsentry/sentry-api-schema/main/openapi-derefed.json"
+    ],
+    "verification": "mock-only",
+    "providerLiveValidation": "not-run",
+    "capabilityEvidence": {
+      "local": {
+        "level": "Tested",
+        "operations": [
+          {
+            "name": "list_organizations",
+            "level": "Tested",
+            "evidenceRefs": [
+              "Provider request/stdio contract tests"
+            ],
+            "method": "contract-fixture"
+          },
+          {
+            "name": "list_organization_projects",
+            "level": "Tested",
+            "evidenceRefs": [
+              "Provider request/stdio contract tests"
+            ],
+            "method": "contract-fixture"
+          }
+        ],
+        "evidenceRefs": [
+          "Provider request/stdio contract tests"
+        ],
+        "mode": "local"
+      },
+      "managed": {
+        "level": "Documented",
+        "operations": [
+          {
+            "name": "list_organizations",
+            "level": "Documented",
+            "evidenceRefs": [],
+            "method": "documentation"
+          },
+          {
+            "name": "list_organization_projects",
+            "level": "Documented",
+            "evidenceRefs": [],
+            "method": "documentation"
+          }
+        ],
+        "evidenceRefs": [],
+        "mode": "managed"
+      }
+    },
+    "repoId": "sentry-mcp",
+    "appSlug": "sentry",
+    "product": "pipmcp",
+    "artifactType": "connector",
+    "sourceRevision": "4c204ffcbfd754fe62f61638e4be6e92ee4bd94980c391e1d919e3a9ee3234f1",
+    "managedAvailability": {
+      "status": "listed",
+      "checkedAt": "2026-11-08T12:29:10.433747+00:00"
+    }
+  },
+  "capabilityEvidence": {
+    "local": {
+      "level": "Tested",
+      "operations": [
+        {
+          "name": "list_organizations",
+          "level": "Tested",
+          "evidenceRefs": [
+            "Provider request/stdio contract tests"
+          ],
+          "method": "contract-fixture"
+        },
+        {
+          "name": "list_organization_projects",
+          "level": "Tested",
+          "evidenceRefs": [
+            "Provider request/stdio contract tests"
+          ],
+          "method": "contract-fixture"
+        }
+      ],
+      "evidenceRefs": [
+        "Provider request/stdio contract tests"
+      ],
+      "mode": "local"
+    },
+    "managed": {
+      "level": "Documented",
+      "operations": [
+        {
+          "name": "list_organizations",
+          "level": "Documented",
+          "evidenceRefs": [],
+          "method": "documentation"
+        },
+        {
+          "name": "list_organization_projects",
+          "level": "Documented",
+          "evidenceRefs": [],
+          "method": "documentation"
+        }
+      ],
+      "evidenceRefs": [],
+      "mode": "managed"
+    }
+  },
+  "utility": {
+    "problem": "Find your organization and projects before selecting error monitoring ownership.",
+    "output": "Actual provider API results through local MCP tools"
+  },
+  "providerDocs": "https://raw.githubusercontent.com/getsentry/sentry-api-schema/main/openapi-derefed.json",
+  "factory": "leadadapter-pipmcp",
+  "generatorVersion": 2
+}
